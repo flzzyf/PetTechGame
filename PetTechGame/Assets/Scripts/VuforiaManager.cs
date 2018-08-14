@@ -9,7 +9,6 @@ public class VuforiaManager : MonoBehaviour
 {
     public HitTestResultEvent clickEvent;
 
-    public Text text;
 
     bool created = false;
 
@@ -32,7 +31,7 @@ public class VuforiaManager : MonoBehaviour
 
     private void LateUpdate()
     {
-        text.text = "侦测到平面：" + hit.ToString();
+        GameManager.Instance().SetText("侦测到平面", hit.ToString());
 
         hit = false;
     }
