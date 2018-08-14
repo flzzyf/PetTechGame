@@ -13,6 +13,8 @@ public class VuforiaManager : MonoBehaviour
 
     bool created = false;
 
+    public GameObject groundPlane;
+
     public void OnInteractiveHitTest(HitTestResult result)
     {
         if (!created)
@@ -20,9 +22,12 @@ public class VuforiaManager : MonoBehaviour
     }
 
     bool hit = false;
-    public void Hit()
+    public void OnAutomaticHitTest(HitTestResult result)
     {
         hit = true;
+
+        groundPlane.transform.position = result.Position;
+        groundPlane.transform.rotation = result.Rotation;
     }
 
     private void LateUpdate()
