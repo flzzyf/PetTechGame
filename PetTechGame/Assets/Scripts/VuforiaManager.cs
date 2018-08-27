@@ -8,11 +8,11 @@ public class HitTestResultEvent : UnityEvent<HitTestResult> { }
 public class VuforiaManager : MonoBehaviour
 {
     public HitTestResultEvent clickEvent;
-
+    public GameObject groundPlane;
 
     bool created = false;
+    bool hit = false;
 
-    public GameObject groundPlane;
 
     public void OnInteractiveHitTest(HitTestResult result)
     {
@@ -20,7 +20,6 @@ public class VuforiaManager : MonoBehaviour
             clickEvent.Invoke(result);
     }
 
-    bool hit = false;
     public void OnAutomaticHitTest(HitTestResult result)
     {
         hit = true;
@@ -29,7 +28,7 @@ public class VuforiaManager : MonoBehaviour
         groundPlane.transform.rotation = result.Rotation;
     }
 
-    private void LateUpdate()
+    void Update()
     {
         GameManager.Instance().SetText("侦测到平面", hit.ToString());
 
