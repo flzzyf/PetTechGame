@@ -360,7 +360,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 599490424}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.062, y: -0.152, z: -0.96300006}
+  m_LocalPosition: {x: 0.062, y: -0.152, z: 0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1134064249}
@@ -1094,7 +1094,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1190266652}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 318717193}
@@ -1198,7 +1198,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1376483145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.373}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 913154880}
@@ -1412,11 +1412,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e963c38208c474783e77656556ab04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 134429625}
   cam: {fileID: 1376483150}
   groundPanel: {fileID: 1190266655}
   itemHolder: {fileID: 818219920}
-  itemSpeed: 1
+  itemSpeed: 5
+  holdingItem: {fileID: 0}
+  holdingDistance: 0.4
+  text: {fileID: 134429625}
 --- !u!1 &1677359410
 GameObject:
   m_ObjectHideFlags: 0
@@ -1597,7 +1599,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2008887447}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1553024978}

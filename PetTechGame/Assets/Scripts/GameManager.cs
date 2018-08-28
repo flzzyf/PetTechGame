@@ -5,36 +5,60 @@ using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
-    public Text text;
-    Dictionary<string, string> textDictionary = new Dictionary<string, string>();
-
     public Transform cam;
-
     public Transform groundPanel;
     public Transform itemHolder;
     public float itemSpeed = 1;
+
+    public GameObject holdingItem;
 
     void Update()
     {
         SetText("镜头坐标", cam.position + "");
         SetText("平面坐标", groundPanel.position + "");
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(" you clicked on " + hit.collider.gameObject.name);
                 if (hit.collider.gameObject.tag == "Item")
                 {
-                    Vector3 targetdir = itemHolder.position - hit.collider.transform.position;
-                    targetdir.Normalize();
-                    hit.collider.transform.Translate(targetdir * itemSpeed * Time.deltaTime);
+                    holdingItem = hit.collider.gameObject;
                 }
             }
         }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            holdingItem = null;
+        }
+
+        if (holdingItem != null)
+        {
+            MoveToCursor(holdingItem.transform);
+        }
     }
+    public float holdingDistance = 1;
+    void MoveToCursor(Transform _obj)
+    {
+        Vector3 desiredPos = GetScreenPoint(Input.mousePosition, holdingDistance);
+        _obj.position = Vector3.Lerp(_obj.position, desiredPos, itemSpeed * Time.deltaTime);
+    }
+
+    Vector3 GetScreenPoint(Vector2 _point, float _distance)
+    {
+        Vector3 point = new Vector3(_point.x, _point.y, _distance);
+
+        point = Camera.main.ScreenToWorldPoint(point);
+
+        return point;
+    }
+
+    #region 多行文字系统
+    public Text text;
+    Dictionary<string, string> textDictionary = new Dictionary<string, string>();
 
     public void SetText(string _key, string _text)
     {
@@ -64,3 +88,4 @@ public class GameManager : Singleton<GameManager>
         text.text = t;
     }
 }
+#endregion
