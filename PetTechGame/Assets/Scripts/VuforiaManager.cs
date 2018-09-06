@@ -10,22 +10,25 @@ public class VuforiaManager : MonoBehaviour
     public HitTestResultEvent clickEvent;
     public GameObject groundPlane;
 
-    bool created = false;
     bool hit = false;
-
 
     public void OnInteractiveHitTest(HitTestResult result)
     {
-        if (!created)
+        if (GameManager.instance.isCreating)
+        {
             clickEvent.Invoke(result);
+        }
     }
 
     public void OnAutomaticHitTest(HitTestResult result)
     {
-        hit = true;
+        if (GameManager.instance.isCreating)
+        {
+            hit = true;
 
-        groundPlane.transform.position = result.Position;
-        groundPlane.transform.rotation = result.Rotation;
+            groundPlane.transform.position = result.Position;
+            groundPlane.transform.rotation = result.Rotation;
+        }
     }
 
     void Update()

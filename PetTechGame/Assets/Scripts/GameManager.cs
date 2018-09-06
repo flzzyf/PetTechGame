@@ -12,6 +12,10 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject holdingItem;
 
+    public List<Transform> interactableobjects;
+
+    public bool isCreating;
+
     void Update()
     {
         SetText("镜头坐标", cam.position + "");
@@ -54,6 +58,11 @@ public class GameManager : Singleton<GameManager>
         point = Camera.main.ScreenToWorldPoint(point);
 
         return point;
+    }
+
+    public void ToggleCreateDog(bool _create)
+    {
+        isCreating = _create;
     }
 
     #region 多行文字系统
