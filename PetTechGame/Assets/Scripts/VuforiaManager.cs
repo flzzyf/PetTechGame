@@ -8,7 +8,7 @@ public class HitTestResultEvent : UnityEvent<HitTestResult> { }
 public class VuforiaManager : MonoBehaviour
 {
     public HitTestResultEvent clickEvent;
-    public GameObject groundPlane;
+    public GameObject groundPlanePlacement;
 
     bool hit = false;
 
@@ -16,7 +16,10 @@ public class VuforiaManager : MonoBehaviour
     {
         if (GameManager.instance.isCreating)
         {
-            clickEvent.Invoke(result);
+            //clickEvent.Invoke(result);
+            print("qwe");
+            GameManager.instance.groundPanel.position = groundPlanePlacement.transform.position;
+            GameManager.instance.groundPanel.GetComponentInChildren<SpriteRenderer>().enabled = true;
         }
     }
 
@@ -26,8 +29,8 @@ public class VuforiaManager : MonoBehaviour
         {
             hit = true;
 
-            groundPlane.transform.position = result.Position;
-            groundPlane.transform.rotation = result.Rotation;
+            groundPlanePlacement.transform.position = result.Position;
+            groundPlanePlacement.transform.rotation = result.Rotation;
         }
     }
 

@@ -9,12 +9,19 @@ public class GameManager : Singleton<GameManager>
     public Transform groundPanel;
     public Transform itemHolder;
     public float itemSpeed = 1;
-
+    [HideInInspector]
     public GameObject holdingItem;
 
     public List<Transform> interactableobjects;
 
+    public GameObject prefab_food;
+
     public bool isCreating;
+
+    void Start()
+    {
+
+    }
 
     void Update()
     {
@@ -63,6 +70,20 @@ public class GameManager : Singleton<GameManager>
     public void ToggleCreateDog(bool _create)
     {
         isCreating = _create;
+    }
+
+    public void CreateFood()
+    {
+        float range = 2;
+        Vector3 pos = Vector3.one;
+        pos.x *= Random.Range(0, range);
+        pos.y *= Random.Range(0, range);
+        pos.z *= Random.Range(0, range);
+
+        print(pos);
+
+        GameObject go = Instantiate(prefab_food, pos, Quaternion.identity);
+        interactableobjects.Add(go.transform);
     }
 
     #region 多行文字系统

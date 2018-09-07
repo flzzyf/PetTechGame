@@ -19,6 +19,9 @@ public class Dog : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.instance.interactableobjects.Count == 0)
+            return;
+
         //无目标就搜索目标
         if (target == null)
             SearchTarget();
@@ -28,7 +31,13 @@ public class Dog : MonoBehaviour
             if (Vector3.Distance(transform.position, target.position) > range_interact)
             {
                 Vector3 dir = target.position - transform.position;
+                dir.y = 0;
                 transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+            }
+            else
+            {
+                //目标在交互范围内
+                Eat(target.gameObject);
             }
         }
     }
@@ -47,6 +56,13 @@ public class Dog : MonoBehaviour
         }
 
         target = nearest;
+    }
+
+    void Eat(GameObject _target)
+    {
+        target = null;
+        GameManager.instance.interactableobjects.Remove(_target.transform);
+        Destroy(_target);
     }
 
 }
