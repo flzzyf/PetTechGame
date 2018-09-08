@@ -12,11 +12,6 @@ public class Dog : MonoBehaviour
     public float stat_hungry = 5;
     public float speed = 3;
 
-    void Start()
-    {
-
-    }
-
     void Update()
     {
         if (GameManager.instance.interactableobjects.Count == 0)
@@ -28,7 +23,7 @@ public class Dog : MonoBehaviour
         else
         {
             //有目标，超过交互范围，靠近
-            if (Vector3.Distance(transform.position, target.position) > range_interact)
+            if (HorizontalDistance(transform.position, target.position) > range_interact)
             {
                 Vector3 dir = target.position - transform.position;
                 dir.y = 0;
@@ -36,10 +31,19 @@ public class Dog : MonoBehaviour
             }
             else
             {
-                //目标在交互范围内
-                Eat(target.gameObject);
+                if (Vector3.Distance(transform.position, target.position) < range_interact)
+                {
+                    //目标在交互范围内
+                    Eat(target.gameObject);
+                }
             }
         }
+    }
+
+    float HorizontalDistance(Vector3 _origin, Vector3 _target)
+    {
+        _target.y = _origin.y;
+        return Vector3.Distance(_origin, _target);
     }
 
     void SearchTarget()

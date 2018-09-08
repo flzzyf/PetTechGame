@@ -24,6 +24,7 @@ public class GameManager : Singleton<GameManager>
     public GameObject text_hint_ground;
     public GameObject text_hint_click;
     public GameObject panel_created;
+    public float holdingDistance = 1;
 
     void Update()
     {
@@ -52,7 +53,7 @@ public class GameManager : Singleton<GameManager>
             MoveToCursor(holdingItem.transform);
         }
     }
-    public float holdingDistance = 1;
+
     void MoveToCursor(Transform _obj)
     {
         Vector3 desiredPos = GetScreenPoint(Input.mousePosition, holdingDistance);

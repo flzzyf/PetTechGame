@@ -21,12 +21,13 @@ public class VuforiaManager : Singleton<VuforiaManager>
         if (GameManager.instance.state != State.created)
         {
             GameManager.instance.state = State.created;
-            GameManager.instance.SetText("状态", "创建后");
             groundPoint = result.Position;
 
             dog = Instantiate(prefab_dog, result.Position, result.Rotation);
 
             GameManager.instance.ChangeState();
+
+            groundPlanePlacement.SetActive(false);
         }
     }
 
