@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Vuforia;
 
 public class GameManager : Singleton<GameManager>
 {
     public Transform cam;
-    public Transform groundPanel;
     public Transform itemHolder;
     public float itemSpeed = 1;
     [HideInInspector]
@@ -26,7 +26,6 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         SetText("镜头坐标", cam.position + "");
-        SetText("平面坐标", groundPanel.position + "");
 
         if (Input.GetMouseButtonDown(0))
         {
