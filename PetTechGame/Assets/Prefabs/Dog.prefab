@@ -132,9 +132,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   range_vision: 8
-  range_interact: 0.1
+  range_interact: 0.15
   stat_hungry: 5
-  speed: 1
+  speed: 0.5
 --- !u!114 &114890870583758918
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using Vuforia;
 
+public enum State { scanning, hit, created };
+
 public class GameManager : Singleton<GameManager>
 {
     public Transform cam;
@@ -16,16 +18,16 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject prefab_food;
 
-    public bool isCreating;
+    [HideInInspector]
+    public State state;
 
-    void Start()
-    {
-
-    }
+    public GameObject text_hint_ground;
+    public GameObject text_hint_click;
+    public GameObject panel_created;
 
     void Update()
     {
-        SetText("镜头坐标", cam.position + "");
+        //SetText("镜头坐标", cam.position + "");
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -66,11 +68,6 @@ public class GameManager : Singleton<GameManager>
         return point;
     }
 
-    public void ToggleCreateDog(bool _create)
-    {
-        isCreating = _create;
-    }
-
     public void CreateFood()
     {
         float range = 2;
@@ -83,6 +80,26 @@ public class GameManager : Singleton<GameManager>
 
         GameObject go = Instantiate(prefab_food, pos, Quaternion.identity);
         interactableobjects.Add(go.transform);
+    }
+
+    public void ChangeState()
+    {
+        text_hint_ground.SetActive(false);
+        text_hint_click.SetActive(false);
+        panel_created.SetActive(false);
+
+        if (state == State.scanning)
+        {
+            text_hint_ground.SetActive(true);
+        }
+        else if (state == State.hit)
+        {
+            text_hint_click.SetActive(true);
+        }
+        else if (state == State.created)
+        {
+            panel_created.SetActive(true);
+        }
     }
 
     #region 多行文字系统

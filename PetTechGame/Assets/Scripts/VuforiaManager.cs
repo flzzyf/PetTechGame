@@ -6,37 +6,36 @@ using UnityEngine.UI;
 public class VuforiaManager : Singleton<VuforiaManager>
 {
     public GameObject groundPlanePlacement;
-    public GameObject prefab_panel;
-    public Transform groundPanel;
-    public Transform dog;
+    public GameObject prefab_dog;
 
-    public GameObject text_hint_ground;
-    public GameObject text_hint_click;
-
+    [HideInInspector]
     public Vector3 groundPoint;
 
     bool hit = false;
 
+    GameObject dog;
+
     //侦测到平面并点击平面
     public void OnInteractiveHitTest(HitTestResult result)
     {
-        if (GameManager.instance.isCreating)
+        if (GameManager.instance.state != State.created)
         {
+            GameManager.instance.state = State.created;
+            GameManager.instance.SetText("状态", "创建后");
             groundPoint = result.Position;
 
-            dog.position = result.Position;
-            dog.rotation = result.Rotation;
+            dog = Instantiate(prefab_dog, result.Position, result.Rotation);
+
+            GameManager.instance.ChangeState();
         }
     }
 
     //自动侦测到平面
     public void OnAutomaticHitTest(HitTestResult result)
     {
-        if (GameManager.instance.isCreating)
+        if (GameManager.instance.state != State.created)
         {
             hit = true;
-
-            Instantiate(prefab_panel, result.Position, result.Rotation);
 
             groundPlanePlacement.transform.position = result.Position;
             groundPlanePlacement.transform.rotation = result.Rotation;
@@ -45,18 +44,22 @@ public class VuforiaManager : Singleton<VuforiaManager>
 
     void Update()
     {
+        if (GameManager.instance.state == State.created)
+            return;
+
         if (hit)
         {
-            text_hint_ground.SetActive(false);
-            text_hint_click.SetActive(true);
+            GameManager.instance.state = State.hit;
         }
         else
         {
-            text_hint_ground.SetActive(true);
-            text_hint_click.SetActive(false);
+            GameManager.instance.state = State.scanning;
         }
 
+        GameManager.instance.ChangeState();
 
         hit = false;
+
+
     }
 }
