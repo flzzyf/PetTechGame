@@ -468,7 +468,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b1d57a9550c554cdc8d22ae4b802595e, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -543,7 +543,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b1d57a9550c554cdc8d22ae4b802595e, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
@@ -1015,7 +1015,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b1d57a9550c554cdc8d22ae4b802595e, type: 3}
     m_FontSize: 79
     m_FontStyle: 0
     m_BestFit: 0
@@ -1300,6 +1300,8 @@ MonoBehaviour:
   range_interact: 0.1
   stat_hungry: 5
   speed: 0.5
+  animator: {fileID: 0}
+  gfx: {fileID: 0}
 --- !u!1 &1240262785
 GameObject:
   m_ObjectHideFlags: 0
@@ -1552,6 +1554,7 @@ GameObject:
   - component: {fileID: 1610380798}
   - component: {fileID: 1610380799}
   - component: {fileID: 1610380800}
+  - component: {fileID: 1610380801}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1610,6 +1613,34 @@ MonoBehaviour:
   panel_created: {fileID: 1673640791}
   holdingDistance: 0.4
   text: {fileID: 134429625}
+--- !u!114 &1610380801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1610380797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18b44236819ee4305a2c6b913a155e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Bark
+    clip: {fileID: 8300000, guid: b35821cb4f18241bdb1b7b556413d8a8, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    audioMixerGroup: {fileID: 0}
+    multipleSound: 0
+  - name: Eat
+    clip: {fileID: 8300000, guid: 2d97f1e03278c481d9232667feb33af5, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+    source: {fileID: 0}
+    audioMixerGroup: {fileID: 0}
+    multipleSound: 0
 --- !u!1 &1673640791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,48 +1740,6 @@ Transform:
   m_Father: {fileID: 318717193}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1726566220
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0.062
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0.315
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4140749756813520, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0d1b3dc76df5a49819d7383c6cefe4ac, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &1834999633
 GameObject:
   m_ObjectHideFlags: 0
