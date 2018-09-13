@@ -39,12 +39,14 @@ public class GameManager : Singleton<GameManager>
                 if (hit.collider.gameObject.tag == "Item")
                 {
                     holdingItem = hit.collider.gameObject;
+                    holdingItem.GetComponent<InteractableObject>().draging = true;
                 }
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
+            holdingItem.GetComponent<InteractableObject>().draging = false;
             holdingItem = null;
         }
 
@@ -54,19 +56,11 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    //移动到屏幕点击位置
     void MoveToCursor(Transform _obj)
     {
-        Vector3 desiredPos = GetScreenPoint(Input.mousePosition, holdingDistance);
+        Vector3 desiredPos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(1);
         _obj.position = Vector3.Lerp(_obj.position, desiredPos, itemSpeed * Time.deltaTime);
-    }
-
-    Vector3 GetScreenPoint(Vector2 _point, float _distance)
-    {
-        Vector3 point = new Vector3(_point.x, _point.y, _distance);
-
-        point = Camera.main.ScreenToWorldPoint(point);
-
-        return point;
     }
 
     public void CreateFood()
