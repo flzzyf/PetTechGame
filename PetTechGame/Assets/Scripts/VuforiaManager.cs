@@ -20,12 +20,11 @@ public class VuforiaManager : Singleton<VuforiaManager>
     {
         if (GameManager.instance.state != State.created)
         {
-            GameManager.instance.state = State.created;
             groundPoint = result.Position;
 
             dog = Instantiate(prefab_dog, result.Position, result.Rotation);
 
-            GameManager.instance.ChangeState();
+            GameManager.instance.ChangeState(State.created);
 
             groundPlanePlacement.SetActive(false);
         }
@@ -50,17 +49,13 @@ public class VuforiaManager : Singleton<VuforiaManager>
 
         if (hit)
         {
-            GameManager.instance.state = State.hit;
+            GameManager.instance.ChangeState(State.click);
         }
         else
         {
-            GameManager.instance.state = State.scanning;
+            GameManager.instance.ChangeState(State.scanning);
         }
 
-        GameManager.instance.ChangeState();
-
         hit = false;
-
-
     }
 }

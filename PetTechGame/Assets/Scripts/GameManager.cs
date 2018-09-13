@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Vuforia;
 
-public enum State { scanning, hit, created };
+public enum State { none, scanning, click, created };
 
 public class GameManager : Singleton<GameManager>
 {
@@ -17,14 +17,18 @@ public class GameManager : Singleton<GameManager>
     public List<Transform> interactableobjects;
 
     public GameObject prefab_food;
-
     [HideInInspector]
-    public State state;
+    public State state = State.none;
 
-    public GameObject text_hint_ground;
+    public GameObject text_hint_scanning;
     public GameObject text_hint_click;
     public GameObject panel_created;
     public float holdingDistance = 1;
+
+    void Start()
+    {
+        ChangeState(State.scanning);
+    }
 
     void Update()
     {
@@ -59,7 +63,7 @@ public class GameManager : Singleton<GameManager>
     //移动到屏幕点击位置
     void MoveToCursor(Transform _obj)
     {
-        Vector3 desiredPos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(1);
+        Vector3 desiredPos = Camera.main.ScreenPointToRay(Input.mousePosition).GetPoint(holdingDistance);
         _obj.position = Vector3.Lerp(_obj.position, desiredPos, itemSpeed * Time.deltaTime);
     }
 
@@ -77,17 +81,22 @@ public class GameManager : Singleton<GameManager>
         interactableobjects.Add(go.transform);
     }
 
-    public void ChangeState()
+    public void ChangeState(State _state)
     {
-        text_hint_ground.SetActive(false);
+        if (state == _state)
+            return;
+        print("qwe");
+        state = _state;
+
+        text_hint_scanning.SetActive(false);
         text_hint_click.SetActive(false);
         panel_created.SetActive(false);
 
         if (state == State.scanning)
         {
-            text_hint_ground.SetActive(true);
+            text_hint_scanning.SetActive(true);
         }
-        else if (state == State.hit)
+        else if (state == State.click)
         {
             text_hint_click.SetActive(true);
         }

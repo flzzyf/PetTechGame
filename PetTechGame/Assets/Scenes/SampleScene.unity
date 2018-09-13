@@ -1179,8 +1179,8 @@ RectTransform:
   - {fileID: 134429624}
   - {fileID: 313339631}
   - {fileID: 2086022033}
-  - {fileID: 1673640792}
   - {fileID: 2094465118}
+  - {fileID: 1673640792}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3049,7 +3049,7 @@ MonoBehaviour:
   prefab_food: {fileID: 1995343460461224, guid: 0d1b3dc76df5a49819d7383c6cefe4ac,
     type: 2}
   state: 0
-  text_hint_ground: {fileID: 2086022032}
+  text_hint_scanning: {fileID: 2086022032}
   text_hint_click: {fileID: 2094465117}
   panel_created: {fileID: 1673640791}
   holdingDistance: 0.4
@@ -3116,7 +3116,7 @@ RectTransform:
   - {fileID: 809438888}
   - {fileID: 881829207}
   m_Father: {fileID: 654783109}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -3404,7 +3404,7 @@ GameObject:
   - component: {fileID: 2086022035}
   - component: {fileID: 2086022034}
   m_Layer: 5
-  m_Name: Text_Hint_Ground
+  m_Name: Text_Hint_Scanning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3492,7 +3492,7 @@ RectTransform:
   m_Children:
   - {fileID: 1094798365}
   m_Father: {fileID: 654783109}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
