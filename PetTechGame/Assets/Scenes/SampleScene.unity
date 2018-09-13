@@ -3030,6 +3030,8 @@ MonoBehaviour:
   groundPlanePlacement: {fileID: 2008887447}
   prefab_dog: {fileID: 1071788714767856, guid: 84aaca08d064f489eb8a3b3ba5ad6d5e, type: 2}
   groundPoint: {x: 0, y: 0, z: 0}
+  prefab_plane: {fileID: 1057463381545662, guid: 48523484b4fe64746b848856ab820489,
+    type: 2}
 --- !u!114 &1610380800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3043,7 +3045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1376483150}
   itemHolder: {fileID: 818219920}
-  itemSpeed: 5
+  itemSpeed: 7
   holdingItem: {fileID: 0}
   interactableobjects: []
   prefab_food: {fileID: 1995343460461224, guid: 0d1b3dc76df5a49819d7383c6cefe4ac,
@@ -3053,6 +3055,7 @@ MonoBehaviour:
   text_hint_click: {fileID: 2094465117}
   panel_created: {fileID: 1673640791}
   holdingDistance: 0.4
+  throwTriggerDistance: 1
   text: {fileID: 134429625}
 --- !u!114 &1610380801
 MonoBehaviour:

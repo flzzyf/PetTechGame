@@ -155,6 +155,7 @@ MonoBehaviour:
   stat_hungry: 5
   speed: 0.5
   animator: {fileID: 95259149980915736}
+  gfx: {fileID: 4894504827331246}
 --- !u!114 &114890870583758918
 MonoBehaviour:
   m_ObjectHideFlags: 1

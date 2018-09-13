@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public float fallingSpeed = 1;
-    [HideInInspector]
-    public bool draging;
+    public Rigidbody rb;
+    bool draging;
 
     void Update()
     {
-        if (draging)
-            return;
 
-        if (transform.position.y > VuforiaManager.instance.groundPoint.y)
-        {
-            transform.Translate(Vector3.down * fallingSpeed * Time.deltaTime, Space.World);
-        }
+    }
+
+    public void Drag()
+    {
+        draging = true;
+        rb.useGravity = false;
+    }
+
+    public void Left()
+    {
+        draging = false;
+        rb.useGravity = true;
     }
 }

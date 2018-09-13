@@ -25,6 +25,10 @@ public class GameManager : Singleton<GameManager>
     public GameObject panel_created;
     public float holdingDistance = 1;
 
+    public float throwTriggerDistance = 1;
+
+    Vector2 mousePreviousPos;
+
     void Start()
     {
         ChangeState(State.scanning);
@@ -43,21 +47,45 @@ public class GameManager : Singleton<GameManager>
                 if (hit.collider.gameObject.tag == "Item")
                 {
                     holdingItem = hit.collider.gameObject;
-                    holdingItem.GetComponent<InteractableObject>().draging = true;
+                    holdingItem.GetComponent<InteractableObject>().Drag();
                 }
             }
         }
 
+
+
         if (Input.GetMouseButtonUp(0))
         {
-            holdingItem.GetComponent<InteractableObject>().draging = false;
-            holdingItem = null;
+            if (holdingItem != null)
+            {
+                //投掷判定
+                print(Input.mousePosition.y + ", " + mousePreviousPos.y);
+                if (Input.mousePosition.y - mousePreviousPos.y > throwTriggerDistance)
+                {
+                    print("投掷");
+                    float forceAmount = Input.mousePosition.y - mousePreviousPos.y;
+                    print(forceAmount);
+                    Vector3 force = Camera.main.transform.forward + Camera.main.transform.up;
+                    force = force.normalized * forceAmount / 50;
+                    holdingItem.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
+                }
+
+                holdingItem.GetComponent<InteractableObject>().Left();
+                holdingItem = null;
+            }
         }
 
+        if (Input.GetMouseButton(0))
+        {
+            mousePreviousPos = Input.mousePosition;
+        }
+
+        //拖动物体
         if (holdingItem != null)
         {
             MoveToCursor(holdingItem.transform);
         }
+
     }
 
     //移动到屏幕点击位置

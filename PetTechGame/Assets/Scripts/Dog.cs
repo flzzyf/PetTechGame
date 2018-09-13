@@ -18,7 +18,7 @@ public class Dog : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(BarkSometimes());
+        //StartCoroutine(BarkSometimes());
     }
 
     void Update()

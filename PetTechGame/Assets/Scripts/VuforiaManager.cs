@@ -15,6 +15,8 @@ public class VuforiaManager : Singleton<VuforiaManager>
 
     GameObject dog;
 
+    public GameObject prefab_plane;
+
     //侦测到平面并点击平面
     public void OnInteractiveHitTest(HitTestResult result)
     {
@@ -23,6 +25,7 @@ public class VuforiaManager : Singleton<VuforiaManager>
             groundPoint = result.Position;
 
             dog = Instantiate(prefab_dog, result.Position, result.Rotation);
+            Instantiate(prefab_plane, result.Position, result.Rotation);
 
             GameManager.instance.ChangeState(State.created);
 
