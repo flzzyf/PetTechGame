@@ -4,37 +4,20 @@ using UnityEngine;
 
 public class InteractableObject : MonoBehaviour
 {
-    public Rigidbody rb;
-    bool draging;
+    public CustomGravity customGravity;
 
-    public float fallingSpeed = 10;
-
-    void Update()
+    void Start()
     {
-        if (draging)
-            return;
-
-        if (transform.position.y > VuforiaManager.instance.groundPoint.y)
-        {
-            //transform.Translate(Vector3.down * fallingSpeed * Time.deltaTime, Space.World);
-            rb.useGravity = true;
-        }
-        else
-        {
-            rb.useGravity = false;
-            rb.velocity = Vector3.zero;
-        }
+        customGravity = GetComponent<CustomGravity>();
     }
 
     public void Drag()
     {
-        draging = true;
-        rb.useGravity = false;
+        customGravity.enableGravity = false;
     }
 
     public void Left()
     {
-        draging = false;
-        rb.useGravity = true;
+        customGravity.enableGravity = true;
     }
 }

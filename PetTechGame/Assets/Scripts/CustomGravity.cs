@@ -8,7 +8,10 @@ public class CustomGravity : MonoBehaviour
     public float gravityScale = 1.0f;
     public static float globalGravity = -9.81f;
 
+    public bool enableGravity = true;
+
     Rigidbody rb;
+    Vector3 gravity;
 
     void Start()
     {
@@ -17,8 +20,12 @@ public class CustomGravity : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 gravity = globalGravity * gravityScale * Vector3.up;
-        rb.AddForce(gravity, ForceMode.Acceleration);
+        if (enableGravity)
+        {
+            gravity = globalGravity * gravityScale * Vector3.up;
+            rb.AddForce(gravity, ForceMode.Acceleration);
+        }
+
     }
 
 }

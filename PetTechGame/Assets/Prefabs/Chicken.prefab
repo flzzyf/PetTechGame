@@ -13,7 +13,7 @@ Prefab:
   m_IsPrefabAsset: 1
 --- !u!1 &1091141858582666
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
@@ -27,6 +27,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1539785540266370
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4855447122572446}
+  - component: {fileID: 114518296590378440}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1995343460461224
 GameObject:
   m_ObjectHideFlags: 0
@@ -35,11 +51,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4140749756813520}
-  - component: {fileID: 114323915903136544}
   - component: {fileID: 114813674966569248}
-  - component: {fileID: 65778746540302490}
   - component: {fileID: 54250201554793012}
   - component: {fileID: 114731191056943138}
+  - component: {fileID: 65462529806659144}
   m_Layer: 0
   m_Name: Chicken
   m_TagString: Item
@@ -57,7 +72,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.322, z: 0.578}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4580249650606462}
+  - {fileID: 4855447122572446}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -68,12 +83,26 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1091141858582666}
   m_LocalRotation: {x: -0, y: -0, z: -0.7084234, w: 0.70578784}
-  m_LocalPosition: {x: 0, y: -0.003, z: 0}
-  m_LocalScale: {x: 0.039024767, y: 0.039024767, z: 0.039024737}
+  m_LocalPosition: {x: 0, y: -0.0029999912, z: 0}
+  m_LocalScale: {x: 0.039024796, y: 0.039024796, z: 0.039024737}
   m_Children: []
-  m_Father: {fileID: 4140749756813520}
+  m_Father: {fileID: 4855447122572446}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90.214005}
+--- !u!4 &4855447122572446
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1539785540266370}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4580249650606462}
+  m_Father: {fileID: 4140749756813520}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &54250201554793012
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -89,7 +118,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &65778746540302490
+--- !u!65 &65462529806659144
 BoxCollider:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,14 +128,14 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.17334118, y: 0.2, z: 0.12}
-  m_Center: {x: -0.0040023588, y: 0, z: 0}
---- !u!114 &114323915903136544
+  m_Size: {x: 0.16, y: 0.2, z: 0.16}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114518296590378440
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1995343460461224}
+  m_GameObject: {fileID: 1539785540266370}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ae87a49d80214cf1aa4ce798c6a0a77, type: 3}
@@ -123,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c14b5b2021934a2da7e517526661f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityScale: 1
+  gravityScale: 0.5
+  enableGravity: 1
 --- !u!114 &114813674966569248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -135,8 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00733a45c764b4e39a0a2b150b01bc95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 54250201554793012}
-  fallingSpeed: 3
+  customGravity: {fileID: 0}
 --- !u!212 &212409145166784160
 SpriteRenderer:
   m_ObjectHideFlags: 1

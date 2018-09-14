@@ -29,6 +29,7 @@ public class VuforiaManager : Singleton<VuforiaManager>
             Instantiate(prefab_plane, result.Position, Quaternion.identity);
 
             GameManager.instance.ChangeState(State.created);
+            groundPlanePlacement.SetActive(false);
         }
     }
 

@@ -39,7 +39,6 @@ public class GameManager : Singleton<GameManager>
 
     void Update()
     {
-        //SetText("镜头坐标", cam.position + "");
 
         if (Input.GetMouseButtonDown(0))
         {
