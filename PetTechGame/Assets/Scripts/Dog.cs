@@ -20,12 +20,15 @@ public class Dog : Singleton<Dog>
 
     public Transform gfx;
 
+    public Vector2 randomBarkInterval;
+
     void Start()
     {
         stat_hungry_current = stat_hungry * 0.7f;
         stat_happiness_current = stat_happiness * 0.4f;
 
-        StartCoroutine(BarkSometimes());
+        if (randomBarkInterval != Vector2.zero)
+            StartCoroutine(BarkSometimes());
     }
 
     void Update()
@@ -61,7 +64,7 @@ public class Dog : Singleton<Dog>
                 GetComponentInChildren<SpriteRenderer>().flipX = false;
             }
             //超过交互范围，靠近
-            if (HorizontalDistance(transform.position, target.position) > range_interact)
+            if (HorizontalDistance(transform.position, target.position) > range_interact / 2)
             {
                 dir.y = 0;
                 transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
@@ -118,7 +121,7 @@ public class Dog : Singleton<Dog>
     {
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3, 5));
+            yield return new WaitForSeconds(Random.Range(randomBarkInterval.x, randomBarkInterval.y));
             SoundManager.instance.Play("Bark");
         }
     }

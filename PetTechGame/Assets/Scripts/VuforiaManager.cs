@@ -25,11 +25,10 @@ public class VuforiaManager : Singleton<VuforiaManager>
             groundPoint = result.Position;
 
             dog = Instantiate(prefab_dog, result.Position, result.Rotation);
-            Instantiate(prefab_plane, result.Position, result.Rotation);
+            //创建地面
+            Instantiate(prefab_plane, result.Position, Quaternion.identity);
 
             GameManager.instance.ChangeState(State.created);
-
-            groundPlanePlacement.SetActive(false);
         }
     }
 
@@ -53,10 +52,12 @@ public class VuforiaManager : Singleton<VuforiaManager>
         if (hit)
         {
             GameManager.instance.ChangeState(State.click);
+            groundPlanePlacement.SetActive(true);
         }
         else
         {
             GameManager.instance.ChangeState(State.scanning);
+            groundPlanePlacement.SetActive(false);
         }
 
         hit = false;

@@ -151,9 +151,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   range_vision: 8
-  range_interact: 0.15
-  stat_hungry: 1000
-  stat_happiness: 1000
+  range_interact: 0.2
+  stat_hungry: 2000
+  stat_happiness: 2000
   speed: 0.5
   animator: {fileID: 95259149980915736}
   gfx: {fileID: 4894504827331246}

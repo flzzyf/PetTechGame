@@ -106,8 +106,6 @@ public class GameManager : Singleton<GameManager>
         pos.y *= Random.Range(0, range);
         pos.z *= Random.Range(0, range);
 
-        print(pos);
-
         GameObject go = Instantiate(prefab_food, pos, Quaternion.identity);
         interactableobjects.Add(go.transform);
     }
@@ -116,7 +114,6 @@ public class GameManager : Singleton<GameManager>
     {
         if (state == _state)
             return;
-        print("qwe");
         state = _state;
 
         text_hint_scanning.SetActive(false);

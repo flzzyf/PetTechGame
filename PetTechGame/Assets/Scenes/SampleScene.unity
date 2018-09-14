@@ -2600,6 +2600,7 @@ MonoBehaviour:
   speed: 0.5
   animator: {fileID: 0}
   gfx: {fileID: 0}
+  randomBarkInterval: {x: 0, y: 0}
 --- !u!1 &1240262785
 GameObject:
   m_ObjectHideFlags: 0
@@ -3031,7 +3032,7 @@ MonoBehaviour:
   groundPlanePlacement: {fileID: 2008887447}
   prefab_dog: {fileID: 1071788714767856, guid: 84aaca08d064f489eb8a3b3ba5ad6d5e, type: 2}
   groundPoint: {x: 0, y: 0, z: 0}
-  prefab_plane: {fileID: 1057463381545662, guid: 48523484b4fe64746b848856ab820489,
+  prefab_plane: {fileID: 1128638371924832, guid: 82f218aa662ea4ae2811272e7d615d87,
     type: 2}
 --- !u!114 &1610380800
 MonoBehaviour:
