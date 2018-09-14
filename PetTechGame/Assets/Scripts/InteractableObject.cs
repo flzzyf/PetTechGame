@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ObjectType { food, toy }
 public class InteractableObject : MonoBehaviour
 {
-    public CustomGravity customGravity;
+    public ObjectType type;
+
+    CustomGravity customGravity;
 
     void Start()
     {
@@ -14,10 +17,13 @@ public class InteractableObject : MonoBehaviour
     public void Drag()
     {
         customGravity.enableGravity = false;
+        GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Left()
     {
         customGravity.enableGravity = true;
+        GetComponent<Rigidbody>().isKinematic = false;
+
     }
 }

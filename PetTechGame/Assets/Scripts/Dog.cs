@@ -22,6 +22,12 @@ public class Dog : Singleton<Dog>
 
     public Vector2 randomBarkInterval;
 
+    GameObject carryingObject;
+
+    public Transform carryPos;
+
+    List<Transform> objectList;
+
     void Start()
     {
         stat_hungry_current = stat_hungry * 0.7f;
@@ -43,8 +49,24 @@ public class Dog : Singleton<Dog>
             ChangeStat(Stat.happiness, 1);
         }
 
-        if (GameManager.instance.interactableobjects.Count == 0)
+        if (carryingObject != null)
             return;
+
+        objectList = GameManager.instance.interactableobjects;
+
+        for (int i = objectList.Count - 1; i >= 0; i--)
+        {
+            if (objectList[i].gameObject.GetComponent<InteractableObject>().type == ObjectType.toy &&
+                            HorizontalDistance(objectList[i].position, Camera.main.transform.position) < 1)
+            {
+                objectList.Remove(objectList[i]);
+            }
+        }
+
+        if (objectList.Count == 0)
+            return;
+
+
 
         //无目标就搜索目标
         if (target == null)
@@ -57,11 +79,11 @@ public class Dog : Singleton<Dog>
             //设置朝向
             if (Vector3.Dot(transform.right, dir.normalized) > 0)
             {
-                GetComponentInChildren<SpriteRenderer>().flipX = true;
+                transform.localScale = new Vector3(-1, 1, 1);
             }
             else
             {
-                GetComponentInChildren<SpriteRenderer>().flipX = false;
+                transform.localScale = new Vector3(1, 1, 1);
             }
             //超过交互范围，靠近
             if (HorizontalDistance(transform.position, target.position) > range_interact / 2)
@@ -78,7 +100,7 @@ public class Dog : Singleton<Dog>
                 if (Vector3.Distance(transform.position, target.position) < range_interact)
                 {
                     //目标在交互范围内
-                    Eat(target.gameObject);
+                    Interact(target.gameObject);
                 }
             }
         }
@@ -92,20 +114,33 @@ public class Dog : Singleton<Dog>
 
     void SearchTarget()
     {
-        Transform nearest = GameManager.instance.interactableobjects[0];
+        Transform nearest = objectList[0];
 
-        for (int i = 1; i < GameManager.instance.interactableobjects.Count; i++)
+        for (int i = 1; i < objectList.Count; i++)
         {
-            if (Vector3.Distance(transform.position, GameManager.instance.interactableobjects[i].position) <
-                Vector3.Distance(transform.position, GameManager.instance.interactableobjects[i - 1].position))
+            if (Vector3.Distance(transform.position, objectList[i].position) <
+                Vector3.Distance(transform.position, objectList[i - 1].position))
             {
-                nearest = GameManager.instance.interactableobjects[i];
+                nearest = objectList[i];
             }
         }
 
         target = nearest;
     }
 
+    //交互
+    void Interact(GameObject _target)
+    {
+        if (_target.GetComponent<InteractableObject>().type == ObjectType.food)
+        {
+            Eat(_target);
+        }
+        else if (_target.GetComponent<InteractableObject>().type == ObjectType.toy)
+        {
+            Carry(_target);
+        }
+    }
+    //吃掉
     void Eat(GameObject _target)
     {
         SoundManager.instance.Play("Eat");
@@ -115,6 +150,47 @@ public class Dog : Singleton<Dog>
         target = null;
         GameManager.instance.interactableobjects.Remove(_target.transform);
         Destroy(_target);
+    }
+    //叼起
+    void Carry(GameObject _target)
+    {
+        carryingObject = _target;
+
+        _target.transform.parent = carryPos;
+        _target.transform.localPosition = Vector3.zero;
+
+        _target.GetComponent<InteractableObject>().Drag();
+
+        StartCoroutine(ReturnToy());
+    }
+
+    IEnumerator ReturnToy()
+    {
+        animator.SetBool("walking", true);
+
+        //朝玩家走，小于范围则放下球
+        while (HorizontalDistance(transform.position, Camera.main.transform.position) > 0.5f)
+        {
+            Vector3 dir = Camera.main.transform.position - transform.position;
+            dir.y = 0;
+            transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+            yield return null;
+        }
+
+        animator.SetBool("walking", false);
+        Discard();
+        target = null;
+
+    }
+    //放下
+    void Discard()
+    {
+        GameObject obj = carryingObject;
+        carryingObject = null;
+
+        obj.transform.parent = null;
+        obj.GetComponent<InteractableObject>().Left();
+
     }
 
     IEnumerator BarkSometimes()

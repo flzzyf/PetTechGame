@@ -32,6 +32,8 @@ public class GameManager : Singleton<GameManager>
     public Slider slider_hungry;
     public Slider slider_happiness;
 
+    public GameObject prefab_ball;
+
     void Start()
     {
         ChangeState(State.scanning);
@@ -53,8 +55,6 @@ public class GameManager : Singleton<GameManager>
                 }
             }
         }
-
-
 
         if (Input.GetMouseButtonUp(0))
         {
@@ -99,14 +99,26 @@ public class GameManager : Singleton<GameManager>
 
     public void CreateFood()
     {
-        float range = 2;
-        Vector3 pos = Vector3.one;
-        pos.x *= Random.Range(0, range);
-        pos.y *= Random.Range(0, range);
-        pos.z *= Random.Range(0, range);
+        Vector3 pos = GetRandomPointToCreateObject();
 
         GameObject go = Instantiate(prefab_food, pos, Quaternion.identity);
         interactableobjects.Add(go.transform);
+    }
+
+    public void CreateBall()
+    {
+        Vector3 pos = GetRandomPointToCreateObject();
+
+        GameObject go = Instantiate(prefab_ball, pos, Quaternion.identity);
+        interactableobjects.Add(go.transform);
+    }
+    //获取物体随机生成点
+    Vector3 GetRandomPointToCreateObject()
+    {
+        Vector2 screenPoint = new Vector2(Random.Range(0f, 1f) * Screen.width,
+                                            Random.Range(1f, 1.2f) * Screen.height);
+        Vector3 pos = Camera.main.ScreenPointToRay(screenPoint).GetPoint(Random.Range(1.5f, 2.5f));
+        return pos;
     }
 
     public void ChangeState(State _state)
