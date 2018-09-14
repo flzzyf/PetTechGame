@@ -152,7 +152,8 @@ MonoBehaviour:
   target: {fileID: 0}
   range_vision: 8
   range_interact: 0.15
-  stat_hungry: 5
+  stat_hungry: 1000
+  stat_happiness: 1000
   speed: 0.5
   animator: {fileID: 95259149980915736}
   gfx: {fileID: 4894504827331246}

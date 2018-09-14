@@ -2,14 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Dog : MonoBehaviour
+public class Dog : Singleton<Dog>
 {
     public Transform target;
 
     public float range_vision = 8;
     public float range_interact = 4;
 
-    public float stat_hungry = 5;
+    public float stat_hungry = 1000;
+    float stat_hungry_current;
+    public float stat_happiness = 1000;
+    float stat_happiness_current;
+
     public float speed = 3;
 
     public Animator animator;
@@ -18,11 +22,24 @@ public class Dog : MonoBehaviour
 
     void Start()
     {
-        //StartCoroutine(BarkSometimes());
+        stat_hungry_current = stat_hungry * 0.7f;
+        stat_happiness_current = stat_happiness * 0.4f;
+
+        StartCoroutine(BarkSometimes());
     }
 
     void Update()
     {
+        ChangeStat(Stat.hungry, -1);
+        if (stat_hungry_current / stat_hungry < 0.5)
+        {
+            ChangeStat(Stat.happiness, -1);
+        }
+        else
+        {
+            ChangeStat(Stat.happiness, 1);
+        }
+
         if (GameManager.instance.interactableobjects.Count == 0)
             return;
 
@@ -90,6 +107,8 @@ public class Dog : MonoBehaviour
     {
         SoundManager.instance.Play("Eat");
 
+        ChangeStat(Stat.hungry, 200);
+
         target = null;
         GameManager.instance.interactableobjects.Remove(_target.transform);
         Destroy(_target);
@@ -104,4 +123,18 @@ public class Dog : MonoBehaviour
         }
     }
 
+    enum Stat { hungry, happiness }
+    void ChangeStat(Stat _stat, int _amount)
+    {
+        if (_stat == Stat.hungry)
+        {
+            stat_hungry_current += _amount;
+            GameManager.instance.slider_hungry.value = stat_hungry_current / stat_hungry;
+        }
+        else if (_stat == Stat.happiness)
+        {
+            stat_happiness_current += _amount;
+            GameManager.instance.slider_happiness.value = stat_happiness_current / stat_happiness;
+        }
+    }
 }

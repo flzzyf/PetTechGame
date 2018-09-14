@@ -29,6 +29,9 @@ public class GameManager : Singleton<GameManager>
 
     Vector2 mousePreviousPos;
 
+    public Slider slider_hungry;
+    public Slider slider_happiness;
+
     void Start()
     {
         ChangeState(State.scanning);
