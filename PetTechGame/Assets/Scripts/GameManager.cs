@@ -60,19 +60,21 @@ public class GameManager : Singleton<GameManager>
         {
             if (holdingItem != null)
             {
+                holdingItem.GetComponent<InteractableObject>().Left();
                 //投掷判定
-                print(Input.mousePosition.y + ", " + mousePreviousPos.y);
-                if (Input.mousePosition.y - mousePreviousPos.y > throwTriggerDistance)
+                //GameManager.instance.SetText("触屏", Input.mousePosition.y + ", " + mousePreviousPos.y);
+                if (Input.mousePosition.y - mousePreviousPos.y > 0)
                 {
-                    print("投掷");
-                    float forceAmount = Input.mousePosition.y - mousePreviousPos.y;
-                    print(forceAmount);
+                    float forceAmount = (Input.mousePosition.y - mousePreviousPos.y) / Screen.height;
+                    //GameManager.instance.SetText("力量", forceAmount + "");
+
                     Vector3 force = Camera.main.transform.forward + Camera.main.transform.up;
-                    force = force.normalized * forceAmount / 50;
+                    force = force.normalized * forceAmount * 40;
+                    //GameManager.instance.SetText("qwe", force + "");
+
                     holdingItem.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
                 }
 
-                holdingItem.GetComponent<InteractableObject>().Left();
                 holdingItem = null;
             }
         }

@@ -22,8 +22,7 @@ public class InteractableObject : MonoBehaviour
 
     public void Left()
     {
-        customGravity.enableGravity = true;
         GetComponent<Rigidbody>().isKinematic = false;
-
+        customGravity.enableGravity = true;
     }
 }
