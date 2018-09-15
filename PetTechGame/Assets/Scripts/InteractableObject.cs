@@ -9,6 +9,9 @@ public class InteractableObject : MonoBehaviour
 
     CustomGravity customGravity;
 
+    [HideInInspector]
+    public bool isDraging;
+
     void Start()
     {
         customGravity = GetComponent<CustomGravity>();
@@ -16,12 +19,16 @@ public class InteractableObject : MonoBehaviour
 
     public void Drag()
     {
+        isDraging = true;
+
         customGravity.enableGravity = false;
         GetComponent<Rigidbody>().isKinematic = true;
     }
 
     public void Left()
     {
+        isDraging = false;
+
         GetComponent<Rigidbody>().isKinematic = false;
         customGravity.enableGravity = true;
     }

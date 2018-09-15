@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Dog : Singleton<Dog>
 {
+    [HideInInspector]
     public Transform target;
 
     public float range_vision = 8;
@@ -28,6 +29,9 @@ public class Dog : Singleton<Dog>
 
     List<Transform> objectList;
 
+    enum DogStatus { idle, busy }
+    DogStatus status;
+
     void Start()
     {
         stat_hungry_current = stat_hungry * 0.7f;
@@ -49,60 +53,18 @@ public class Dog : Singleton<Dog>
             ChangeStat(Stat.happiness, 1);
         }
 
-        if (carryingObject != null)
+        if (status != DogStatus.idle)
             return;
-
-        objectList = GameManager.instance.interactableobjects;
-
-        for (int i = objectList.Count - 1; i >= 0; i--)
-        {
-            if (objectList[i].gameObject.GetComponent<InteractableObject>().type == ObjectType.toy &&
-                            HorizontalDistance(objectList[i].position, Camera.main.transform.position) < 1)
-            {
-                objectList.Remove(objectList[i]);
-            }
-        }
-
-        if (objectList.Count == 0)
-            return;
-
-
 
         //无目标就搜索目标
         if (target == null)
-            SearchTarget();
-        else
+            target = SearchTarget();
+
+        if (target != null)
         {
-            //有目标
-            Vector3 dir = target.position - transform.position;
-
-            //设置朝向
-            if (Vector3.Dot(transform.right, dir.normalized) > 0)
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-            }
-            else
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-            }
-            //超过交互范围，靠近
-            if (HorizontalDistance(transform.position, target.position) > range_interact / 2)
-            {
-                dir.y = 0;
-                transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
-
-                animator.SetBool("walking", true);
-            }
-            else
-            {
-                animator.SetBool("walking", false);
-
-                if (Vector3.Distance(transform.position, target.position) < range_interact)
-                {
-                    //目标在交互范围内
-                    Interact(target.gameObject);
-                }
-            }
+            status = DogStatus.busy;
+            //有目标向其移动
+            StartCoroutine(MoveToTarget(target.transform));
         }
     }
 
@@ -112,8 +74,22 @@ public class Dog : Singleton<Dog>
         return Vector3.Distance(_origin, _target);
     }
 
-    void SearchTarget()
+    Transform SearchTarget()
     {
+        objectList = new List<Transform>();
+        //去除离玩家太近的物体
+        for (int i = 0; i < GameManager.instance.interactableobjects.Count; i++)
+        {
+            if (!(GameManager.instance.interactableobjects[i].gameObject.GetComponent<InteractableObject>().type == ObjectType.toy &&
+                            HorizontalDistance(GameManager.instance.interactableobjects[i].position, Camera.main.transform.position) < 1))
+            {
+                objectList.Add(GameManager.instance.interactableobjects[i]);
+            }
+        }
+
+        if (objectList.Count == 0)
+            return null;
+
         Transform nearest = objectList[0];
 
         for (int i = 1; i < objectList.Count; i++)
@@ -125,7 +101,56 @@ public class Dog : Singleton<Dog>
             }
         }
 
-        target = nearest;
+        return nearest;
+    }
+
+    IEnumerator MoveToTarget(Transform _target)
+    {
+        animator.SetBool("walking", true);
+
+        bool speedUp = false;
+        //目标是玩具则加速
+        if (_target.gameObject.GetComponent<InteractableObject>().type == ObjectType.toy)
+        {
+            speedUp = true;
+            speed *= 2;
+        }
+
+        //目标在交互范围外
+        while (Vector3.Distance(transform.position, _target.position) > range_interact)
+        {
+            Vector3 dir = _target.position - transform.position;
+
+            //设置朝向
+            if (Mathf.Abs(Vector3.Dot(transform.right, dir.normalized)) > 0.05f)
+            {
+                if (Vector3.Dot(transform.right, dir.normalized) > 0)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
+            }
+
+            if (HorizontalDistance(transform.position, _target.position) > range_interact / 2)
+            {
+                //移动
+                dir.y = 0;
+                transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
+            }
+
+
+            yield return null;
+        }
+
+        if (speedUp)
+            speed /= 2;
+
+        animator.SetBool("walking", false);
+
+        Interact(target.gameObject);
     }
 
     //交互
@@ -150,6 +175,8 @@ public class Dog : Singleton<Dog>
         target = null;
         GameManager.instance.interactableobjects.Remove(_target.transform);
         Destroy(_target);
+
+        status = DogStatus.idle;
     }
     //叼起
     void Carry(GameObject _target)
@@ -181,6 +208,7 @@ public class Dog : Singleton<Dog>
         Discard();
         target = null;
 
+        status = DogStatus.idle;
     }
     //放下
     void Discard()

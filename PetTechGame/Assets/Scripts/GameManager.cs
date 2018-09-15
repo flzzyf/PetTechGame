@@ -48,7 +48,8 @@ public class GameManager : Singleton<GameManager>
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
-                if (hit.collider.gameObject.tag == "Item")
+                if (hit.collider.gameObject.tag == "Item" &&
+                    !hit.collider.gameObject.GetComponent<InteractableObject>().isDraging)
                 {
                     holdingItem = hit.collider.gameObject;
                     holdingItem.GetComponent<InteractableObject>().Drag();
@@ -66,10 +67,9 @@ public class GameManager : Singleton<GameManager>
                 if (Input.mousePosition.y - mousePreviousPos.y > 0)
                 {
                     float forceAmount = (Input.mousePosition.y - mousePreviousPos.y) / Screen.height;
-                    //GameManager.instance.SetText("力量", forceAmount + "");
 
                     Vector3 force = Camera.main.transform.forward + Camera.main.transform.up;
-                    force = force.normalized * forceAmount * 40;
+                    force = force.normalized * forceAmount * 20;
                     //GameManager.instance.SetText("qwe", force + "");
 
                     holdingItem.GetComponent<Rigidbody>().AddForce(force, ForceMode.Impulse);
