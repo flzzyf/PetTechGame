@@ -34,9 +34,13 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject prefab_ball;
 
+    public Transform world;
+
     void Start()
     {
         ChangeState(State.scanning);
+
+        world = new GameObject("World").transform;
     }
 
     void Update()
@@ -90,6 +94,31 @@ public class GameManager : Singleton<GameManager>
             MoveToCursor(holdingItem.transform);
         }
 
+        //两指缩放
+        TouchToScaleWorld();
+    }
+
+    public float touchesSensitivity = 0.2f;
+    float previousTouchesDistance;
+    void TouchToScaleWorld()
+    {
+        if (Input.touchCount == 2)
+        {
+            if (Input.GetTouch(0).phase == TouchPhase.Moved ||
+                                     Input.GetTouch(1).phase == TouchPhase.Moved)
+            {
+                float scaleValue = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position) -
+                                    previousTouchesDistance;
+                scaleValue = scaleValue / Screen.width;
+                SetText("缩放值", scaleValue + "");
+                world.localScale = world.localScale + Vector3.one * scaleValue;
+
+                previousTouchesDistance = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
+                SetText("缩放比率", previousTouchesDistance + "");
+            }
+
+
+        }
     }
 
     //移动到屏幕点击位置
@@ -103,7 +132,7 @@ public class GameManager : Singleton<GameManager>
     {
         Vector3 pos = GetRandomPointToCreateObject();
 
-        GameObject go = Instantiate(prefab_food, pos, Quaternion.identity);
+        GameObject go = Instantiate(prefab_food, pos, Quaternion.identity, world);
         interactableobjects.Add(go.transform);
     }
 
@@ -111,7 +140,7 @@ public class GameManager : Singleton<GameManager>
     {
         Vector3 pos = GetRandomPointToCreateObject();
 
-        GameObject go = Instantiate(prefab_ball, pos, Quaternion.identity);
+        GameObject go = Instantiate(prefab_ball, pos, Quaternion.identity, world);
         interactableobjects.Add(go.transform);
     }
     //获取物体随机生成点
