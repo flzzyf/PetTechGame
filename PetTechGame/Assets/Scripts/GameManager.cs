@@ -98,7 +98,8 @@ public class GameManager : Singleton<GameManager>
         TouchToScaleWorld();
     }
 
-    public float touchesSensitivity = 0.2f;
+    public float touchesSensitivity = 2f;
+    public Vector2 touchesScaleLimit = new Vector2(0.1f, 1);
     float previousTouchesDistance;
     void TouchToScaleWorld()
     {
@@ -107,14 +108,29 @@ public class GameManager : Singleton<GameManager>
             if (Input.GetTouch(0).phase == TouchPhase.Moved ||
                                      Input.GetTouch(1).phase == TouchPhase.Moved)
             {
-                float scaleValue = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position) -
-                                    previousTouchesDistance;
-                scaleValue = scaleValue / Screen.width;
-                SetText("缩放值", scaleValue + "");
-                world.localScale = world.localScale + Vector3.one * scaleValue;
+                float scaleValue = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
+                scaleValue = scaleValue / Screen.width * touchesSensitivity;
+                scaleValue = Mathf.Clamp(scaleValue, touchesScaleLimit.x, touchesScaleLimit.y);
 
-                previousTouchesDistance = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
-                SetText("缩放比率", previousTouchesDistance + "");
+                //SetText("缩放值", scaleValue + "");
+
+                //缩放值正负
+                List<Transform> children = new List<Transform>();
+                foreach (Transform child in world)
+                {
+                    children.Add(child);
+                    child.SetParent(null);
+                }
+                world.position = VuforiaManager.instance.dog.transform.position;
+                foreach (Transform child in children)
+                {
+                    child.SetParent(world);
+                }
+                //SetText("世界坐标", world.position + "");
+                world.localScale = Vector3.one * scaleValue;
+
+                //previousTouchesDistance = Vector2.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
+                //SetText("缩放比率", previousTouchesDistance + "");
             }
 
 
@@ -174,6 +190,18 @@ public class GameManager : Singleton<GameManager>
         {
             panel_created.SetActive(true);
         }
+    }
+
+    public Animator animator_panel_food;
+    public Animator animator_panel_toy;
+    public void Panel_Food()
+    {
+        animator_panel_food.SetBool("show", !animator_panel_food.GetBool("show"));
+    }
+
+    public void Panel_Toy()
+    {
+        animator_panel_toy.SetBool("show", !animator_panel_toy.GetBool("show"));
     }
 
     #region 多行文字系统

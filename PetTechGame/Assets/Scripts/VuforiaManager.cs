@@ -15,6 +15,9 @@ public class VuforiaManager : Singleton<VuforiaManager>
 
     public GameObject prefab_plane;
 
+    [HideInInspector]
+    public GameObject dog;
+
     //侦测到平面并点击平面
     public void OnInteractiveHitTest(HitTestResult result)
     {
@@ -22,7 +25,7 @@ public class VuforiaManager : Singleton<VuforiaManager>
         {
             groundPoint = result.Position;
 
-            Instantiate(prefab_dog, result.Position, result.Rotation, GameManager.instance.world);
+            dog = Instantiate(prefab_dog, result.Position, result.Rotation, GameManager.instance.world);
             //创建地面
             Instantiate(prefab_plane, result.Position, Quaternion.identity);
 
