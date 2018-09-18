@@ -197,11 +197,22 @@ public class GameManager : Singleton<GameManager>
     public void Panel_Food()
     {
         animator_panel_food.SetBool("show", !animator_panel_food.GetBool("show"));
+        if (animator_panel_toy.GetBool("show") == true &&
+           animator_panel_food.GetBool("show") == true)
+        {
+            animator_panel_toy.SetBool("show", false);
+        }
     }
 
     public void Panel_Toy()
     {
         animator_panel_toy.SetBool("show", !animator_panel_toy.GetBool("show"));
+
+        if (animator_panel_toy.GetBool("show") == true &&
+                   animator_panel_food.GetBool("show") == true)
+        {
+            animator_panel_food.SetBool("show", false);
+        }
     }
 
     #region 多行文字系统
