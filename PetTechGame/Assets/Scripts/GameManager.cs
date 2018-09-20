@@ -144,21 +144,26 @@ public class GameManager : Singleton<GameManager>
         _obj.position = Vector3.Lerp(_obj.position, desiredPos, itemSpeed * Time.deltaTime);
     }
 
-    public void CreateFood()
+    public void CreateItem(string _food)
     {
         Vector3 pos = GetRandomPointToCreateObject();
 
-        GameObject go = Instantiate(prefab_food, pos, Quaternion.identity, world);
-        interactableobjects.Add(go.transform);
+        Item s = null;
+        for (int i = 0; i < items.Length; i++)
+        {
+            if (items[i].name == _food)
+            {
+                s = items[i];
+                break;
+            }
+        }
+        if (s != null)
+        {
+            GameObject go = Instantiate(s.prefab, pos, Quaternion.identity, world);
+            interactableobjects.Add(go.transform);
+        }
     }
 
-    public void CreateBall()
-    {
-        Vector3 pos = GetRandomPointToCreateObject();
-
-        GameObject go = Instantiate(prefab_ball, pos, Quaternion.identity, world);
-        interactableobjects.Add(go.transform);
-    }
     //获取物体随机生成点
     Vector3 GetRandomPointToCreateObject()
     {
@@ -213,6 +218,14 @@ public class GameManager : Singleton<GameManager>
         {
             animator_panel_food.SetBool("show", false);
         }
+    }
+
+    public Item[] items;
+    [System.Serializable]
+    public class Item
+    {
+        public string name;
+        public GameObject prefab;
     }
 
     #region 多行文字系统

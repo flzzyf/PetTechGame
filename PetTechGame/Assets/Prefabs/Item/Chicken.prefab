@@ -165,7 +165,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00733a45c764b4e39a0a2b150b01bc95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  customGravity: {fileID: 0}
+  type: 0
+  isDraging: 0
 --- !u!212 &212409145166784160
 SpriteRenderer:
   m_ObjectHideFlags: 1
